@@ -1,0 +1,17 @@
+{
+  "name": "fable-jest",
+  "version": "1.0.0",
+  "description": "Fable Jest bindings",
+  "scripts": {},
+  "keywords": [
+    "F#",
+    "Fable",
+    "Jest"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fable-core": "^1.0.0-narumi-8"
+  },
+  "devDependencies": {}
+}
