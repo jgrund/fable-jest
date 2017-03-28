@@ -1,4 +1,4 @@
-namespace Fable.Import
+module Jest
 open Fable.Core
 open Fable.Core.JsInterop
 
