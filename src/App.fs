@@ -2,18 +2,34 @@ module Jest
 open Fable.Core
 open Fable.Core.JsInterop
 
+module expect_types =
+  type Expect =
+    abstract toEqual: 'a -> unit
+    abstract toBe: 'a -> unit
+    abstract toBeCalledWith: 'a -> unit
+
+  and ExpectStatic =
+    [<Emit("$0($1...)")>] abstract Invoke: 'a -> Expect
+    abstract assertions: int -> unit
+
+  and Globals =
+    abstract Expect: ExpectStatic with get, set
+
+[<Global>]
+let expect: expect_types.ExpectStatic = jsNative
+
 module jest_types =
-  type IExpectation =
-    abstract toBeCalledWith: 'A -> unit
-
-  type IGlobals =
+  type JestStatic =
     abstract fn: unit -> ('A -> 'B)
-  
-[<Global>]
-let jest:jest_types.IGlobals = jsNative
+
+  and Globals =
+    abstract Jest: JestStatic with get, set
 
 [<Global>]
-let expect expected: jest_types.IExpectation = jsNative
+let jest:jest_types.JestStatic = jsNative
+
+[<Global>]
+let describe(msg: string) (f: unit -> unit) = jsNative
 
 [<Global>]
 let beforeEach f:unit -> unit = jsNative
@@ -24,8 +40,8 @@ let it(msg: string) (f: unit -> unit) = jsNative
 [<Global("it")>]
 let itAsync(msg: string) (f: unit -> Fable.Import.JS.Promise<'T>) = jsNative
 
-[<Emit("expect($0).toEqual($1)")>]
-let equals expected actual = jsNative
+let toEqual expected actual =
+  expect.Invoke(expected).toEqual(actual)
 
-[<Global>]
-let describe(msg: string) (f: unit -> unit) = jsNative
+let toBeCalledWith expected value =
+  expect.Invoke(expected).toBeCalledWith(value)
