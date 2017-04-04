@@ -1,4 +1,4 @@
-module Jest
+module rec Jest
 open Fable.Core
 open Fable.Core.JsInterop
 
@@ -8,11 +8,15 @@ module expect_types =
     abstract toBe: 'a -> unit
     abstract toBeCalledWith: 'a -> unit
 
-  and ExpectStatic =
+  type DoneStatic =
+    [<Emit("$0()")>] abstract ``done``: 'a -> unit
+    abstract fail: 'a -> 'b
+
+  type ExpectStatic =
     [<Emit("$0($1...)")>] abstract Invoke: 'a -> Expect
     abstract assertions: int -> unit
 
-  and Globals =
+  type Globals =
     abstract Expect: ExpectStatic with get, set
 
 [<Global>]
@@ -36,6 +40,9 @@ let beforeEach f:unit -> unit = jsNative
 
 [<Global("it")>]
 let it(msg: string) (f: unit -> unit) = jsNative
+
+[<Global("it")>]
+let itDone(msg:string) (f: expect_types.DoneStatic -> unit) = jsNative
 
 [<Global("it")>]
 let itAsync(msg: string) (f: unit -> Fable.Import.JS.Promise<'T>) = jsNative
