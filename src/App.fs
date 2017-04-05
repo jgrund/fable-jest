@@ -50,10 +50,10 @@ let itAsync(msg: string) (f: unit -> Fable.Import.JS.Promise<'T>) = jsNative
 [<Global("test")>]
 let test(msg: string) (f: unit -> unit) = jsNative
 
-[<Global("testDone")>]
+[<Global("test")>]
 let testDone(msg:string) (f: expect_types.DoneStatic -> unit) = jsNative
 
-[<Global("testAsync")>]
+[<Global("test")>]
 let testAsync(msg: string) (f: unit -> Fable.Import.JS.Promise<'T>) = jsNative
 
 let toEqual expected actual =
