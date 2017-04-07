@@ -6,7 +6,8 @@ module expect_types =
   type Expect =
     abstract toEqual: 'a -> unit
     abstract toBe: 'a -> unit
-    abstract toBeCalledWith: 'a -> unit
+    abstract toBeCalledWith:('a) -> unit
+    abstract toBeCalledWith:'a * 'b -> unit
 
   type DoneStatic =
     [<Emit("$0()")>] abstract ``done``: 'a -> unit
@@ -15,6 +16,7 @@ module expect_types =
   type ExpectStatic =
     [<Emit("$0($1...)")>] abstract Invoke: 'a -> Expect
     abstract assertions: int -> unit
+    abstract any: 'a -> 'a
 
   type Globals =
     abstract Expect: ExpectStatic with get, set
@@ -25,12 +27,18 @@ let expect: expect_types.ExpectStatic = jsNative
 module jest_types =
   type JestStatic =
     abstract fn: unit -> ('A -> 'B)
+    abstract fn: (unit -> 'B) -> ('A -> 'B)
+    abstract mock:string -> unit
+    abstract mock:string * (unit -> 'A) -> unit
+    abstract enableAutomock: unit -> unit
+    abstract genMockFromModule: string -> 'A
 
-  and Globals =
+  type Globals =
     abstract Jest: JestStatic with get, set
 
 [<Global>]
 let jest:jest_types.JestStatic = jsNative
+
 
 [<Global>]
 let describe(msg: string) (f: unit -> unit) = jsNative
@@ -60,4 +68,7 @@ let toEqual expected actual =
   expect.Invoke(expected).toEqual(actual)
 
 let toBeCalledWith expected value =
-  expect.Invoke(expected).toBeCalledWith(value)
+  expect.Invoke(expected).toBeCalledWith value
+
+let toBeCalledWith2 expected value1 value2 =
+  expect.Invoke(expected).toBeCalledWith(value1, value2)
