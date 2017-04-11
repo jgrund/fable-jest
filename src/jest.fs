@@ -33,6 +33,9 @@ module jest_types =
     abstract enableAutomock: unit -> unit
     abstract genMockFromModule: string -> 'A
 
+  type Mock<'A> =
+    abstract calls: List<'A>
+
   type Globals =
     abstract Jest: JestStatic with get, set
 
@@ -63,6 +66,9 @@ let testDone(msg:string) (f: expect_types.DoneStatic -> unit) = jsNative
 
 [<Global("test")>]
 let testAsync(msg: string) (f: unit -> Fable.Import.JS.Promise<'T>) = jsNative
+
+[<Emit("$0")>]
+let getMock x:jest_types.Mock<'A> = jsNative
 
 let toEqual expected actual =
   expect.Invoke(expected).toEqual(actual)
