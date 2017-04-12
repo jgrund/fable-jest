@@ -67,7 +67,7 @@ let testDone(msg:string) (f: expect_types.DoneStatic -> unit) = jsNative
 [<Global("test")>]
 let testAsync(msg: string) (f: unit -> Fable.Import.JS.Promise<'T>) = jsNative
 
-[<Emit("$0")>]
+[<Emit("$0.mock")>]
 let getMock x:jest_types.Mock<'A> = jsNative
 
 let toEqual expected actual =
