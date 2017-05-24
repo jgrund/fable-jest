@@ -6,19 +6,12 @@
     "type": "git",
     "url": "https://github.com/jgrund/fable-jest.git"
   },
-  "publishConfig": {
-    "registry": " https://registry.npmjs.org"
-  },
-  "scripts": {},
+  "private": true,
   "keywords": [
     "F#",
     "Fable",
     "Jest"
   ],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "fable-core": "next"
-  },
-  "devDependencies": {}
+  "author": "Joe Grund",
+  "license": "MIT"
 }

@@ -1,4 +1,4 @@
-module rec Jest
+module rec Fable.Jest
 open Fable.Core
 open Fable.Core.JsInterop
 
