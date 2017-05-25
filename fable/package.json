@@ -23,10 +23,8 @@
   ],
   "author": "Joe Grund",
   "license": "MIT",
-  "dependencies": {
-    "jest-fable-preprocessor": "1.2.2"
-  },
   "devDependencies": {
-    "jest": "20.0.4"
+    "jest": "20.0.4",
+    "jest-fable-preprocessor": "1.2.2"
   }
 }
