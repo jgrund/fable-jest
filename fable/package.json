@@ -1,0 +1,32 @@
+{
+  "name": "fable-jest",
+  "version": "2.4.1",
+  "description": "Fable Jest bindings",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jgrund/fable-jest.git"
+  },
+  "scripts": {
+    "prejest": "sendProjFile",
+    "jest": "jest --watch",
+    "test": "dotnet fable npm-run jest",
+    "cover": "yarn test -- --coverage"
+  },
+  "fable": {
+    "projLocation": "./Fable.Jest.fsproj"
+  },
+  "private": true,
+  "keywords": [
+    "F#",
+    "Fable",
+    "Jest"
+  ],
+  "author": "Joe Grund",
+  "license": "MIT",
+  "dependencies": {
+    "jest-fable-preprocessor": "1.2.2"
+  },
+  "devDependencies": {
+    "jest": "20.0.4"
+  }
+}
