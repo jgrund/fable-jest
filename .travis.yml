@@ -10,3 +10,4 @@ script:
   - yarn
   - dotnet restore
   - yarn run test
+  - codecov
