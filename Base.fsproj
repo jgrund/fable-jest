@@ -7,7 +7,7 @@
     <DotNetCliToolReference Include="dotnet-fable" Version="1.0.6" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="./test/Fable.Jest.Test.fsproj" />
+    <ProjectReference Include="./test/Fable.Import.Jest.Test.fsproj" />
   </ItemGroup>
   <Import Project=".paket\Paket.Restore.targets" />
 </Project>

@@ -10,7 +10,7 @@
     <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../fable/Fable.Jest.fsproj" />
+    <ProjectReference Include="../fable/Fable.Import.Jest.fsproj" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
