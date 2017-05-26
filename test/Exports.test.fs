@@ -1,4 +1,4 @@
-module rec Fable.Import.Jest.Exports.Test
+module Fable.Import.Jest.Test.Exports
 
 open Fable.Import.Jest
 open Fable.PowerPack
@@ -21,7 +21,6 @@ describe "test suite" <| fun () ->
     promise {
       expect.Invoke(1).toBe(1)
     }
-
 
   describe "mocking" <| fun () ->
     let mutable mock = id

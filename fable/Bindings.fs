@@ -24,6 +24,8 @@ type [<AllowNullLiteral>] JestStatic =
   abstract mock:string -> unit
   abstract mock:string * (unit -> 'A) -> unit
   abstract enableAutomock: unit -> unit
+  abstract disableAutomock: unit -> unit
+  abstract isMockFunction: ('A -> 'B) -> bool
   abstract genMockFromModule: string -> 'A
   abstract spyOn: 'A -> string -> Mock<_>
 
