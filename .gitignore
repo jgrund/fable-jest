@@ -2,3 +2,4 @@ obj
 bin
 node_modules
 packages
+coverage

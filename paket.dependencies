@@ -2,4 +2,5 @@ source https://nuget.org/api/v2
 
 
 nuget Fable.Core 1.0.4
+nuget Fable.PowerPack
 nuget Fsharp.Core

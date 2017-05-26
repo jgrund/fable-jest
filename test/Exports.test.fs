@@ -1,6 +1,7 @@
 module rec Fable.Import.Jest.Exports.Test
 
 open Fable.Import.Jest
+open Fable.PowerPack
 
 describe "test suite" <| fun () ->
   it "should add numbers" <| fun () ->
@@ -15,6 +16,12 @@ describe "test suite" <| fun () ->
     expect.Invoke("foo").toBe("foo")
     expect.Invoke("bar").toBe("bar")
 
+  testAsync "should work with promises" <| fun () ->
+
+    promise {
+      expect.Invoke(1).toBe(1)
+    }
+
 
   describe "mocking" <| fun () ->
     let mutable mock = id
@@ -25,4 +32,3 @@ describe "test suite" <| fun () ->
     it "should assert calls" <| fun () ->
       mock("foo") |> ignore
       expect.Invoke(mock).toBeCalledWith("foo")
-
