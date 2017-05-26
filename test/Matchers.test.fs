@@ -4,9 +4,9 @@ open Fable.Import.Jest
 open Fable.Core
 
 // Track: https://github.com/fable-compiler/Fable/issues/965
-// jest.enableAutomock()
-// jest.mock "net"
-// jest.disableAutomock()
+jest.enableAutomock()
+jest.mock "net"
+jest.disableAutomock()
 
 open Fable.Import.Jest.Matchers
 open Fable.Import.Node

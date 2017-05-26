@@ -35,7 +35,7 @@ module.exports = {
     '^.+\\.js$': 'babel-jest'
   },
   testMatch: ['**/**/*.(test.fs|test.fsx)'],
-  coveragePathIgnorePatterns: ['packages/*']
+  coveragePathIgnorePatterns: ['/packages/', 'test/']
 };
 ```
 `package.json`
@@ -43,8 +43,7 @@ module.exports = {
   "scripts": {
     "prejest": "sendProjFile",
     "jest": "jest --coverage",
-    "test": "dotnet fable npm-run jest",
-    "cover": "yarn test -- --coverage"
+    "test": "dotnet fable npm-run jest"
   },
   "fable": {
     "projLocation": "./Base.fsproj"

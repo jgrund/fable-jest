@@ -9,11 +9,7 @@
   "scripts": {
     "prejest": "sendProjFile",
     "jest": "jest --coverage",
-    "test": "dotnet fable npm-run jest",
-    "cover": "yarn test -- --coverage"
-  },
-  "fable": {
-    "projLocation": "./Base.fsproj"
+    "test": "dotnet fable npm-run jest"
   },
   "private": true,
   "keywords": [
@@ -25,6 +21,6 @@
   "license": "MIT",
   "devDependencies": {
     "jest": "20.0.4",
-    "jest-fable-preprocessor": "1.2.4"
+    "jest-fable-preprocessor": "1.2.6"
   }
 }
