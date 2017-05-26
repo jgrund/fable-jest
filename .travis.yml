@@ -1,0 +1,13 @@
+language: csharp
+sudo: false
+dist: trusty
+dotnet: 1.0.3
+mono: none
+before_script:
+  - nvm install 6
+  - npm install -g yarn
+cache: yarn
+script:
+  - yarn
+  - dotnet restore
+  - yarn run test
