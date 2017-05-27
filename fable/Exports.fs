@@ -35,4 +35,4 @@ let testDone(msg:string) (f: DoneStatic -> unit):unit = jsNative
 let testAsync(msg: string) (f: unit -> Fable.Import.JS.Promise<'T>):unit = jsNative
 
 [<Emit("$0.mock")>]
-let getMock x:Mock<'A> = jsNative
+let getMock (x:obj):Mock<'A> = jsNative

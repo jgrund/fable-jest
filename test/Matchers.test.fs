@@ -2,11 +2,11 @@ module Fable.Import.Jest.Test.Matchers
 
 open Fable.Import.Jest
 open Fable.Core
+open Fable.Core.JsInterop
 
-// Track: https://github.com/fable-compiler/Fable/issues/965
-jest.enableAutomock()
-jest.mock "net"
-jest.disableAutomock()
+jest.mock("net", fun () -> 
+  createObj ["isIP" ==> jest.fn()]
+)
 
 open Fable.Import.Jest.Matchers
 open Fable.Import.Node
@@ -31,12 +31,25 @@ test "it should have a toBeCalledWith2 function" <| fun () ->
 
   toBeCalledWith2 mock "1" "2"
 
-// Track https://github.com/fable-compiler/Fable/issues/965
-// test "should work with mocking external deps" <| fun () -> 
-//   Net.isIP("foo")
+test "it should have a toBeCalledWith3 function" <| fun () ->
+  let mock = jest.fn()
 
-//   (Net :?> obj)?isIP
-//   |> getMock 
-//   |> fun x -> x.calls
-//   |> List.head
-//   |> toBe "food"
+  mock "1" "2" "3"
+
+  toBeCalledWith3 mock "1" "2" "3"
+
+test "should work with mocking external deps" <| fun () ->   
+  Net.isIP("foo")
+    |> ignore
+
+  Net?isIP
+  |> getMock
+  |> fun x -> x.calls
+  |> List.last
+  |> List.last
+  |> toBe "foo"
+
+test "should work with matching some" <| fun () ->
+  expect.assertions 2
+  toEqualSome "3" (Some 3)
+  toEqualNone None
