@@ -51,5 +51,5 @@ test "should work with mocking external deps" <| fun () ->
 
 test "should work with matching some" <| fun () ->
   expect.assertions 2
-  toEqualSome "3" (Some 3)
+  toEqualSome "3" (Some "3")
   toEqualNone None
