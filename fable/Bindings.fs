@@ -38,7 +38,7 @@ type [<AllowNullLiteral>] DoneStatic =
   abstract fail: 'a -> 'b
 
 type [<AllowNullLiteral>] Virtual =
-  abstract virtual: bool with get, set
+  abstract ``virtual``: bool with get, set
 
 type [<AllowNullLiteral>] JestStatic =
   abstract fn: unit -> ('A -> 'B)
