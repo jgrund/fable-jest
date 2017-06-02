@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
-    <DotNetCliToolReference Include="dotnet-fable" Version="1.0.6" />
+    <DotNetCliToolReference Include="dotnet-fable" Version="1.0.8" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="./test/Fable.Import.Jest.Test.fsproj" />
