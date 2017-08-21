@@ -17,16 +17,15 @@ describe "test suite" <| fun () ->
     expect.Invoke("bar").toBe("bar")
 
   testAsync "should work with promises" <| fun () ->
-
     promise {
       expect.Invoke(1).toBe(1)
     }
 
   describe "mocking" <| fun () ->
     let mutable mock = id
-    
+
     beforeEach <| fun () ->
-      mock <- jest.fn()
+      mock <- jest.fn None
 
     it "should assert calls" <| fun () ->
       mock("foo") |> ignore
