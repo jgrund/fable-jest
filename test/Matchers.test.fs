@@ -5,9 +5,16 @@ open Fable.Import.Jest
 open Fable.Import.Jest.Matchers
 open Fable.Core
 open Fable.Core.JsInterop
+open Fable.Import.Node
 
 test "it should have a toEqual function" <| fun () ->
   toEqual 1 1
+
+test "it should have toEqual sugar" <| fun () ->
+  1 == 1
+
+test "it should have toBe sugar" <| fun () ->
+  1 === 1
 
 test "it should have a toBe function" <| fun () ->
   toBe 1 1
@@ -32,6 +39,30 @@ test "it should have a matcher3" <| fun () ->
   m.Mock "1" "2" "3"
 
   m.CalledWith "1" "2" "3"
+
+test "it should track calls for matcher2" <| fun () ->
+  expect.assertions 3
+
+  let m = Matcher2()
+
+  m.Mock "0" "1"
+  m.Mock "3" "4"
+
+  toEqual m.Calls [|("0", "1"); ("3", "4")|]
+  toEqual m.LastCall ("3", "4")
+  m.LastCalledWith "3" "4"
+
+test "it should track calls for matcher3" <| fun () ->
+  expect.assertions 3
+
+  let m = Matcher3()
+
+  m.Mock "0" "1" "2"
+  m.Mock "3" "4" "5"
+
+  toEqual m.Calls [|("0", "1", "2"); ("3", "4", "5")|]
+  toEqual m.LastCall ("3", "4", "5")
+  m.LastCalledWith "3" "4" "5"
 
 test "should work with matching some" <| fun () ->
   expect.assertions 2
