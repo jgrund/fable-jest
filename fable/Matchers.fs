@@ -1,24 +1,52 @@
 module rec Fable.Import.Jest.Matchers
 
+open System
 open Fable.Core
 open Fable.Core.JsInterop
 open Fable.Import.Jest
 open Fable.Import.Jest.Bindings
+
+[<Emit("$0.mock")>]
+let getMock (x:obj):Mock<'A> = jsNative
+
+[<Emit("$0")>]
+let noCurry (x:obj):obj = jsNative
+
+type [<AllowNullLiteral>] Matcher<'A, 'B> (?impl:'A -> 'B) =
+  let fn = jest.fn impl
+  member x.Mock:'A -> 'B = fn
+  member x.CalledWith (a:'A) =
+    expect.Invoke(noCurry(fn)).toBeCalledWith(a)
+  member x.LastCalledWith (a:'A) =
+    expect.Invoke(noCurry(fn)).lastCalledWith(a)
+  member x.Calls:'A[][] = (getMock fn).calls
+  member x.LastCall:'A = x.Calls |> Array.last |> Array.last
+
+type [<AllowNullLiteral>] Matcher2<'A, 'B, 'C> (?impl:'A -> 'B -> 'C) =
+  let fn = jest.fn impl
+  member x.Mock:'A -> 'B -> 'C = fn
+  member x.CalledWith (a:'A) (b:'B) =
+    expect.Invoke(noCurry(x.Mock)).toBeCalledWith(a, b)
+  member x.LastCalledWith (a:'A) (b:'B) =
+    expect.Invoke(noCurry(fn)).lastCalledWith(a, b)
+  member x.Calls:('A * 'B)[] = (getMock fn).calls
+  member x.LastCall:('A * 'B) = x.Calls |> Array.last
+
+type [<AllowNullLiteral>] Matcher3<'A, 'B, 'C, 'D> (?impl:'A -> 'B -> 'C -> 'D) =
+  let fn = jest.fn impl
+  member x.Mock:'A -> 'B -> 'C -> 'D = fn
+  member x.CalledWith (a:'A) (b:'B) (c:'C) =
+    expect.Invoke(noCurry(x.Mock)).toBeCalledWith(a, b, c)
+  member x.LastCalledWith (a:'A) (b:'B) (c:'C) =
+    expect.Invoke(noCurry(fn)).lastCalledWith(a, b, c)
+  member x.Calls:('A * 'B * 'C)[] = (getMock fn).calls
+  member x.LastCall:('A * 'B * 'C) = x.Calls |> Array.last
 
 let toEqual expected actual =
   expect.Invoke(expected).toEqual(actual)
 
 let toBe expected actual =
   expect.Invoke(expected).toBe(actual)
-
-[<Emit("expect($0).toBeCalledWith($1)")>]
-let toBeCalledWith mock (value):unit = jsNative
-
-[<Emit("expect($0).toBeCalledWith($1, $2)")>]
-let toBeCalledWith2 mock value1 (value2):unit = jsNative
-
-[<Emit("expect($0).toBeCalledWith($1, $2, $3)")>]
-let toBeCalledWith3 mock value1 value2 (value3):unit = jsNative
 
 expect.extend (createObj
     [
@@ -46,3 +74,10 @@ let toEqualSome x y =
 
 let toEqualNone (x):unit =
   expect.Invoke(x)?toEqualNone() :?> unit
+
+[<AutoOpen>]
+module Assertions =
+  /// Asserts the left side is equal to the right.
+  let (==) e a = toEqual e a
+  /// Asserts the left side is the same reference as the right.
+  let (===) e a = toBe e a

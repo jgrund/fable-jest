@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`expect should contain toMatchSnapshot 1`] = `
+Foo {
+  "bar": "bar",
+  "foo": "foo",
+}
+`;
