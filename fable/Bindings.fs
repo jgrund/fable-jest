@@ -100,7 +100,7 @@ type [<AllowNullLiteral>] ExpectStatic =
   abstract anything: unit -> unit
   /// ```expect.any``` constructor matches anything that was created with the given constructor.
   /// You can use it inside toEqual or toBeCalledWith instead of a literal value.
-  abstract any: 'a -> unit
+  abstract any: 'a -> 'b
   /// ```expect.arrayContaining array``` matches a received array
   /// which contains all of the elements in the expected array.
   /// That is, the expected array is a subset of the received array.

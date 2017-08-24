@@ -22,9 +22,9 @@ test "it should have a toBe function" <| fun () ->
 test "it should have a matcher" <| fun () ->
   let m = Matcher()
 
-  m.Mock "1"
+  m.Mock (fun () -> ())
 
-  m.CalledWith "1"
+  m.CalledWith (expect.any Fable.Import.JS.Function)
 
 test "it should have a matcher2" <| fun () ->
   let m = Matcher2()

@@ -12,7 +12,11 @@
     "test": "dotnet fable npm-run jest"
   },
   "private": true,
-  "keywords": ["F#", "Fable", "Jest"],
+  "keywords": [
+    "F#",
+    "Fable",
+    "Jest"
+  ],
   "author": "Joe Grund",
   "license": "MIT",
   "devDependencies": {

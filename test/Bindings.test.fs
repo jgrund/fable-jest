@@ -1,6 +1,7 @@
 module Fable.Import.Jest.Test.Bindings
 
 open Fable.Import.Jest.Exports
+open Fable.Import
 open Fable.PowerPack
 
 type Foo = {foo:string; bar:string;}
@@ -71,3 +72,6 @@ describe "expect" <| fun () ->
 
   test "should contain toThrow" <| fun () ->
     expect.Invoke(fun () -> raise (System.Exception "blah")).toThrow()
+
+  test "should contain any" <| fun () ->
+    expect.Invoke(fun () -> ()).toEqual(expect.any JS.Function)
