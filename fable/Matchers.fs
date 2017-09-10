@@ -81,3 +81,10 @@ module Assertions =
   let (==) e a = toEqual e a
   /// Asserts the left side is the same reference as the right.
   let (===) e a = toBe e a
+  /// Assert matcher is lastCalled with arg
+  let (<?>) (m:Matcher<_, _>) a = m.LastCalledWith a
+  /// Assert matcher2 is lastCalled with args
+  let (<??>) (m:Matcher2<_, _, _>) (a, b) = m.LastCalledWith a b
+  /// Assert matcher3 is lastCalled with args
+
+  let (<???>) (m:Matcher3<_, _, _, _>) (a, b, c) = m.LastCalledWith a b c

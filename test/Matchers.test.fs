@@ -19,6 +19,14 @@ test "it should have toBe sugar" <| fun () ->
 test "it should have a toBe function" <| fun () ->
   toBe 1 1
 
+test "it should have matcher sugar" <| fun () ->
+  let m = Matcher()
+
+  m.Mock "1"
+
+  m <?> "1"
+
+
 test "it should have a matcher" <| fun () ->
   let m = Matcher()
 
@@ -32,6 +40,13 @@ test "it should have a matcher2" <| fun () ->
   m.Mock "1" "2"
 
   m.CalledWith "1" "2"
+
+test "it should have matcher2 sugar" <| fun () ->
+  let m = Matcher2()
+
+  m.Mock "1" "2"
+
+  m <??> ("1", "2")
 
 test "it should have a matcher3" <| fun () ->
   let m = Matcher3()
@@ -63,6 +78,13 @@ test "it should track calls for matcher3" <| fun () ->
   toEqual m.Calls [|("0", "1", "2"); ("3", "4", "5")|]
   toEqual m.LastCall ("3", "4", "5")
   m.LastCalledWith "3" "4" "5"
+
+test "it should have matcher3 sugar" <| fun () ->
+  let m = Matcher3()
+
+  m.Mock "1" "2" "3"
+
+  m <???> ("1", "2", "3")
 
 test "should work with matching some" <| fun () ->
   expect.assertions 2
