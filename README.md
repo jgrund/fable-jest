@@ -1,6 +1,6 @@
 # fable-jest
 
-Fable bindings for Jest. 
+Fable bindings for Jest.
 
 [![Build Status](https://travis-ci.org/jgrund/fable-jest.svg?branch=master)](https://travis-ci.org/jgrund/fable-jest)
 [![codecov](https://codecov.io/gh/jgrund/fable-jest/branch/master/graph/badge.svg)](https://codecov.io/gh/jgrund/fable-jest)
@@ -29,28 +29,24 @@ At a minimum, you will need a .babelrc file, jest.config.js, and some package.js
 ```
 module.exports = {
   testEnvironment: 'node',
-  moduleFileExtensions: ['js', 'fs', 'fsx'],
+  moduleFileExtensions: ['js', 'fs'],
   transform: {
-    '^.+\\.(fs|fsx)$': 'jest-fable-preprocessor',
-    '^.+\\.js$': 'babel-jest'
+    '^.+\\.(fs)$': 'jest-fable-preprocessor',
+    '^.+\\.js$': 'jest-fable-preprocessor/source/babel-jest.js'
   },
-  testMatch: ['**/**/*.(test.fs|test.fsx)'],
+  testMatch: ['**/**/*.(test.fs)'],
   coveragePathIgnorePatterns: ['/packages/', 'test/']
 };
 ```
 `package.json`
 ```
   "scripts": {
-    "prejest": "sendProjFile",
     "jest": "jest --coverage",
     "test": "dotnet fable npm-run jest"
   },
-  "fable": {
-    "projLocation": "./Base.fsproj"
-  },
   "devDependencies": {
-    "jest": "20.0.4",
-    "jest-fable-preprocessor": "1.2.4"
+    "jest": "^21.0.2",
+    "jest-fable-preprocessor": "^1.3.3",
   }
 ```
 

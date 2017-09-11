@@ -1,10 +1,10 @@
 module.exports = {
   testEnvironment: 'node',
-  moduleFileExtensions: ['js', 'fs', 'fsx'],
+  moduleFileExtensions: ['js', 'fs'],
   transform: {
-    '^.+\\.(fs|fsx)$': 'jest-fable-preprocessor',
-    '^.+\\.js$': 'babel-jest'
+    '^.+\\.(fs)$': 'jest-fable-preprocessor',
+    '^.+\\.js$': 'jest-fable-preprocessor/source/babel-jest.js'
   },
-  testMatch: ['**/**/*.(test.fs|test.fsx)'],
+  testMatch: ['**/**/*.(test.fs)'],
   coveragePathIgnorePatterns: ['/packages/', 'test/']
 };

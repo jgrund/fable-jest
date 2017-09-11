@@ -1,15 +1,12 @@
-<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Exports.test.fs" />
     <Compile Include="Matchers.test.fs" />
     <Compile Include="Bindings.test.fs" />
     <Compile Include="Main.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../fable/Fable.Import.Jest.fsproj" />

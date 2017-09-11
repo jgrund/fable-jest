@@ -1,15 +1,13 @@
 language: csharp
-sudo: false
 dist: trusty
-dotnet: 1.0.4
+dotnet: 2.0.0
+mono: latest
 before_script:
-  - nvm install 6
+  - nvm install 8
   - npm install -g codecov
-  - npm install -g yarn
-cache: yarn
 script:
-  - yarn
+  - npm i
   - dotnet restore
-  - yarn run test
+  - npm t
 after_success:
   - codecov
