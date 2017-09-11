@@ -86,7 +86,7 @@ test "it should have matcher3 sugar" <| fun () ->
 
   m <???> ("1", "2", "3")
 
-test "should work with matching some" <| fun () ->
+test "should work with matching options" <| fun () ->
   expect.assertions 2
   toEqualSome "3" (Some "3")
   toEqualNone None
