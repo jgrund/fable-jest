@@ -6,6 +6,7 @@ open Fable.Import.Jest.Matchers
 open Fable.Core
 open Fable.Core.JsInterop
 open Fable.Import.Node
+open Fable.PowerPack
 
 test "it should have a toEqual function" <| fun () ->
   toEqual 1 1
@@ -25,7 +26,6 @@ test "it should have matcher sugar" <| fun () ->
   m.Mock "1"
 
   m <?> "1"
-
 
 test "it should have a matcher" <| fun () ->
   let m = Matcher()
@@ -109,3 +109,46 @@ describe "mocking external" <| fun () ->
       |> ignore
 
     toBe "foo" mockMatcher.LastCall
+
+testList "Testing the testList" [
+  Test("adding", fun () -> 1 === 1);
+  TestDone("waiting", fun (x) ->
+    1 === 1
+
+    x.``done``()
+  );
+  TestAsync("promises", fun () ->
+    promise {
+      1 === 1
+    }
+  )
+]
+
+testList "testFixtures" [
+  let fixture fn () =
+    fn(+)
+
+  yield! testFixture fixture [
+    "add some stuff", fun (op) -> op 1 2 === 3
+  ]
+
+  let doneFixture fn (x:Bindings.DoneStatic) =
+    fn(-)
+
+    x.``done``()
+
+  yield! testFixtureDone doneFixture [
+    "subtract some stuff", fun (op) -> op 2 1 === 1
+  ]
+
+  let asyncFixture fn () =
+    promise {
+      let! op = Promise.lift(*)
+
+      fn(op)
+    }
+
+  yield! testFixtureAsync asyncFixture [
+    "multiply some stuff", fun (op) -> op 3 2 === 6
+  ]
+]

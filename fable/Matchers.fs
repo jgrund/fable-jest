@@ -2,6 +2,7 @@ module rec Fable.Import.Jest.Matchers
 
 open System
 open Fable.Core
+open Fable.Import
 open Fable.Core.JsInterop
 open Fable.Import.Jest
 open Fable.Import.Jest.Bindings
@@ -88,3 +89,35 @@ module Assertions =
   /// Assert matcher3 is lastCalled with args
 
   let (<???>) (m:Matcher3<_, _, _, _>) (a, b, c) = m.LastCalledWith a b c
+
+[<AutoOpen>]
+module Jesto =
+  type Test =
+    | Test of string * (unit -> unit)
+    | TestDone of string * (DoneStatic -> unit)
+    | TestAsync of string * (unit -> JS.Promise<unit>)
+
+  /// Takes a list of tests and runs them.
+  let testList (name:string) (xs:seq<Test>) =
+    describe name <| fun () ->
+      xs
+      |> Seq.iter (function
+        | Test(s, fn) -> test s fn
+        | TestDone(s, fn) -> testDone s fn
+        | TestAsync(s, fn) -> testAsync s fn
+      )
+
+  /// Creates a fixture to pass into tests.
+  let testFixture (fixture: 'a -> unit -> unit) xs =
+    xs
+      |> Seq.map (fun (name, fn) -> Test(name, fixture(fn)))
+
+  /// Creates a done fixture to pass into tests.
+  let testFixtureDone (fixture: 'a -> DoneStatic -> unit) xs =
+    xs
+      |> Seq.map (fun (name, fn) -> TestDone(name, fixture(fn)))
+
+  /// Creates an async fixture to pass into tests.
+  let testFixtureAsync (fixture: 'a -> unit -> JS.Promise<unit>) xs =
+    xs
+      |> Seq.map (fun (name, fn) -> TestAsync(name, fixture(fn)))
