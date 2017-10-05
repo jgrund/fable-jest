@@ -11,12 +11,16 @@
     "test": "dotnet fable npm-run jest"
   },
   "private": true,
-  "keywords": ["F#", "Fable", "Jest"],
+  "keywords": [
+    "F#",
+    "Fable",
+    "Jest"
+  ],
   "author": "Joe Grund",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^21.0.2",
-    "jest-fable-preprocessor": "^1.3.3",
-    "babel-preset-env": "^1.6.0"
+    "babel-preset-env": "^1.6.0",
+    "jest": "^21.2.1",
+    "jest-fable-preprocessor": "^1.3.3"
   }
 }
