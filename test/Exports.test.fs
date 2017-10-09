@@ -25,7 +25,7 @@ describe "test suite" <| fun () ->
     let mutable mock = id
 
     beforeEach <| fun () ->
-      mock <- jest.fn None
+      mock <- jest.fn1()
 
     it "should assert calls" <| fun () ->
       mock("foo") |> ignore

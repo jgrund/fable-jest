@@ -1,8 +1,9 @@
 source https://nuget.org/api/v2
+storage:none
 
 clitool dotnet-fable
 
-nuget Fable.Core 1.2.1
+nuget Fable.Core
 nuget Fable.Import.Node
 nuget Fable.PowerPack
 nuget Fsharp.Core

@@ -7,7 +7,7 @@
     "url": "https://github.com/jgrund/fable-jest.git"
   },
   "scripts": {
-    "jest": "jest --coverage",
+    "jest": "jest --no-cache --coverage",
     "test": "dotnet fable npm-run jest"
   },
   "private": true,

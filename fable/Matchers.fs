@@ -14,7 +14,10 @@ let getMock (x:obj):Mock<'A> = jsNative
 let noCurry (x:obj):obj = jsNative
 
 type [<AllowNullLiteral>] Matcher<'A, 'B> (?impl:'A -> 'B) =
-  let fn = jest.fn impl
+  let fn =
+    match impl with
+      | Some(x) -> jest.fn1 x
+      | None -> jest.fn1()
   member x.Mock:'A -> 'B = fn
   member x.CalledWith (a:'A) =
     expect.Invoke(noCurry(fn)).toBeCalledWith(a)
@@ -24,20 +27,26 @@ type [<AllowNullLiteral>] Matcher<'A, 'B> (?impl:'A -> 'B) =
   member x.LastCall:'A = x.Calls |> Array.last |> Array.last
 
 type [<AllowNullLiteral>] Matcher2<'A, 'B, 'C> (?impl:'A -> 'B -> 'C) =
-  let fn = jest.fn impl
-  member x.Mock:'A -> 'B -> 'C = fn
-  member x.CalledWith (a:'A) (b:'B) =
-    expect.Invoke(noCurry(x.Mock)).toBeCalledWith(a, b)
+  let fn =
+    match impl with
+      | Some(x) -> jest.fn2 x
+      | None -> jest.fn2()
+  member x.Mock(a:'A) (b:'B) = fn a b
+  member x.CalledWith (a:'A) (b:'B):unit =
+    expect.Invoke(noCurry(fn)).toBeCalledWith(a, b)
   member x.LastCalledWith (a:'A) (b:'B) =
     expect.Invoke(noCurry(fn)).lastCalledWith(a, b)
   member x.Calls:('A * 'B)[] = (getMock fn).calls
   member x.LastCall:('A * 'B) = x.Calls |> Array.last
 
 type [<AllowNullLiteral>] Matcher3<'A, 'B, 'C, 'D> (?impl:'A -> 'B -> 'C -> 'D) =
-  let fn = jest.fn impl
-  member x.Mock:'A -> 'B -> 'C -> 'D = fn
+  let fn =
+    match impl with
+      | Some(x) -> jest.fn3 x
+      | None -> jest.fn3()
+  member x.Mock(a:'A) (b:'B) (c:'C) = fn a b c
   member x.CalledWith (a:'A) (b:'B) (c:'C) =
-    expect.Invoke(noCurry(x.Mock)).toBeCalledWith(a, b, c)
+    expect.Invoke(noCurry(fn)).toBeCalledWith(a, b, c)
   member x.LastCalledWith (a:'A) (b:'B) (c:'C) =
     expect.Invoke(noCurry(fn)).lastCalledWith(a, b, c)
   member x.Calls:('A * 'B * 'C)[] = (getMock fn).calls
@@ -114,8 +123,12 @@ module Jesto =
 
   /// Creates a done fixture to pass into tests.
   let testFixtureDone (fixture: 'a -> DoneStatic -> unit) xs =
+
     xs
-      |> Seq.map (fun (name, fn) -> TestDone(name, fixture(fn)))
+      |> Seq.map (fun (name, fn) ->
+        let t = fixture(fn)
+        TestDone(name, fun x -> t(x))
+      )
 
   /// Creates an async fixture to pass into tests.
   let testFixtureAsync (fixture: 'a -> unit -> JS.Promise<unit>) xs =
