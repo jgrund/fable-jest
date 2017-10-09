@@ -136,7 +136,12 @@ type [<AllowNullLiteral>] Virtual =
   abstract ``virtual``: bool with get, set
 
 type [<AllowNullLiteral>] JestStatic =
-  abstract fn: ('a -> 'b) option -> ('a -> 'b)
+  [<Emit("$0.fn()")>] abstract fn1: unit -> ('a -> 'b)
+  [<Emit("$0.fn($1)")>] abstract fn1: ('a -> 'b) -> ('a -> 'b)
+  [<Emit("$0.fn()")>] abstract fn2: unit -> ('a -> 'b -> 'c)
+  [<Emit("$0.fn($1)")>] abstract fn2: ('a -> 'b -> 'c) -> ('a -> 'b -> 'c)
+  [<Emit("$0.fn($1)")>] abstract fn3: ('a -> 'b -> 'c -> 'd) -> ('a -> 'b -> 'c -> 'd)
+  [<Emit("$0.fn()")>] abstract fn3: unit -> ('a -> 'b -> 'c -> 'd)
   abstract mock:string -> unit
   abstract mock:string * (unit -> 'A) -> unit
   abstract mock:string * (unit -> 'A) * Virtual -> unit
