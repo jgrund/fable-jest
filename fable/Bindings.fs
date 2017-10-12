@@ -151,6 +151,7 @@ type [<AllowNullLiteral>] JestStatic =
   abstract isMockFunction: ('A -> 'B) -> bool
   abstract genMockFromModule: string -> 'A
   abstract spyOn: 'A -> string -> Mock<_>
+  abstract setTimeout: int -> unit
 
 type [<AllowNullLiteral>] Mock<'A> =
   abstract calls: 'A []
