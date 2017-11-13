@@ -2,10 +2,8 @@ module Fable.Import.Jest.Test.Matchers
 
 open Fable.Import
 open Fable.Import.Jest
-open Fable.Import.Jest.Matchers
-open Fable.Core
+open Matchers
 open Fable.Core.JsInterop
-open Fable.Import.Node
 open Fable.PowerPack
 
 test "it should have a toEqual function" <| fun () ->
@@ -19,6 +17,9 @@ test "it should have toBe sugar" <| fun () ->
 
 test "it should have a toBe function" <| fun () ->
   toBe 1 1
+
+test "it should have a toMatchSnapshot function" <| fun () ->
+  toMatchSnapshot "foo bar"
 
 test "it should have matcher sugar" <| fun () ->
   let m = Matcher()

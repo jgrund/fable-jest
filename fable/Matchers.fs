@@ -1,11 +1,10 @@
-module rec Fable.Import.Jest.Matchers
+module Fable.Import.Jest.Matchers
 
-open System
 open Fable.Core
 open Fable.Import
-open Fable.Core.JsInterop
+open JsInterop
 open Fable.Import.Jest
-open Fable.Import.Jest.Bindings
+open Bindings
 
 [<Emit("$0.mock")>]
 let getMock (x:obj):Mock<'A> = jsNative
@@ -58,12 +57,15 @@ let toEqual expected actual =
 let toBe expected actual =
   expect.Invoke(expected).toBe(actual)
 
+let toMatchSnapshot expected =
+  expect.Invoke(expected).toMatchSnapshot()
+
 expect.extend (createObj
     [
     "toEqualSome" ==> fun x y ->
       match x with
       | Some z ->
-        let this:obj = Fable.Core.JsInterop.jsThis
+        let this:obj = jsThis
 
         let isEqual:bool = !!(this?equals(z, y))
 

@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it should have a toMatchSnapshot function 1`] = `"foo bar"`;
