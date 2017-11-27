@@ -7,47 +7,28 @@ Fable bindings for Jest.
 
 ## Setup
 
-At a minimum, you will need a .babelrc file, jest.config.js, and some package.json entries:
+* Install / update template
 
-`.babelrc`
-```
-{
-  "presets": [
-    [
-      "env",
-      {
-        "targets": {
-          "node": "current"
-        }
-      }
-    ]
-  ]
-}
-```
+  * `dotnet new -i Fable.Template.Jest`
 
-`jest.config.js`
-```
-module.exports = {
-  testEnvironment: 'node',
-  moduleFileExtensions: ['js', 'fs'],
-  transform: {
-    '^.+\\.(fs)$': 'jest-fable-preprocessor',
-    '^.+\\.js$': 'jest-fable-preprocessor/source/babel-jest.js'
-  },
-  testMatch: ['**/**/*.(test.fs)'],
-  coveragePathIgnorePatterns: ['/packages/', 'test/']
-};
-```
-`package.json`
-```
-  "scripts": {
-    "jest": "jest --coverage",
-    "test": "dotnet fable npm-run jest"
-  },
-  "devDependencies": {
-    "jest": "^21.0.2",
-    "jest-fable-preprocessor": "^1.3.3",
-  }
-```
+* Create project
 
-[jest-fable-preprocessor](https://github.com/jgrund/jest-fable-preprocessor) Will read your project. With this, we can get code coverage and jest file watching.
+  * `dotnet new fable-jest -n my-test-app`
+
+* Run the tests
+  * `dotnet fable npm-run test`
+* Run the tests and output code coverage
+  * `dotnet fable npm-run coverage`
+* Run the tests in watch mode:
+
+  * In one terminal
+    * `dotnet fable start` In a second terminal
+    * `npm run test-watch`
+      * This will allow you to run all, or just a subset of tests, and will
+        re-test the changed files on save.
+
+## More Info
+
+Refer to the
+[template readme](https://github.com/jgrund/fable-template-jest/blob/master/Content/README.md)
+for more info.
