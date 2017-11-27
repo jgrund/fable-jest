@@ -7,22 +7,22 @@ open Fable.Import.Jest
 open Bindings
 
 [<Emit("$0.mock")>]
-let getMock (x:obj):Mock<'A> = jsNative
+let getMock (_:obj):Mock<'A> = jsNative
 
 [<Emit("$0")>]
-let noCurry (x:obj):obj = jsNative
+let noCurry (_:obj):obj = jsNative
 
 type [<AllowNullLiteral>] Matcher<'A, 'B> (?impl:'A -> 'B) =
   let fn =
     match impl with
       | Some(x) -> jest.fn1 x
       | None -> jest.fn1()
-  member x.Mock:'A -> 'B = fn
-  member x.CalledWith (a:'A) =
+  member __.Mock:'A -> 'B = fn
+  member __.CalledWith (a:'A) =
     expect.Invoke(noCurry(fn)).toBeCalledWith(a)
-  member x.LastCalledWith (a:'A) =
+  member __.LastCalledWith (a:'A) =
     expect.Invoke(noCurry(fn)).lastCalledWith(a)
-  member x.Calls:'A[][] = (getMock fn).calls
+  member __.Calls:'A[][] = (getMock fn).calls
   member x.LastCall:'A = x.Calls |> Array.last |> Array.last
 
 type [<AllowNullLiteral>] Matcher2<'A, 'B, 'C> (?impl:'A -> 'B -> 'C) =
@@ -30,12 +30,12 @@ type [<AllowNullLiteral>] Matcher2<'A, 'B, 'C> (?impl:'A -> 'B -> 'C) =
     match impl with
       | Some(x) -> jest.fn2 x
       | None -> jest.fn2()
-  member x.Mock(a:'A) (b:'B) = fn a b
-  member x.CalledWith (a:'A) (b:'B):unit =
+  member __.Mock(a:'A) (b:'B) = fn a b
+  member __.CalledWith (a:'A) (b:'B):unit =
     expect.Invoke(noCurry(fn)).toBeCalledWith(a, b)
-  member x.LastCalledWith (a:'A) (b:'B) =
+  member __.LastCalledWith (a:'A) (b:'B) =
     expect.Invoke(noCurry(fn)).lastCalledWith(a, b)
-  member x.Calls:('A * 'B)[] = (getMock fn).calls
+  member __.Calls:('A * 'B)[] = (getMock fn).calls
   member x.LastCall:('A * 'B) = x.Calls |> Array.last
 
 type [<AllowNullLiteral>] Matcher3<'A, 'B, 'C, 'D> (?impl:'A -> 'B -> 'C -> 'D) =
@@ -43,12 +43,12 @@ type [<AllowNullLiteral>] Matcher3<'A, 'B, 'C, 'D> (?impl:'A -> 'B -> 'C -> 'D) 
     match impl with
       | Some(x) -> jest.fn3 x
       | None -> jest.fn3()
-  member x.Mock(a:'A) (b:'B) (c:'C) = fn a b c
-  member x.CalledWith (a:'A) (b:'B) (c:'C) =
+  member __.Mock(a:'A) (b:'B) (c:'C) = fn a b c
+  member __.CalledWith (a:'A) (b:'B) (c:'C) =
     expect.Invoke(noCurry(fn)).toBeCalledWith(a, b, c)
-  member x.LastCalledWith (a:'A) (b:'B) (c:'C) =
+  member __.LastCalledWith (a:'A) (b:'B) (c:'C) =
     expect.Invoke(noCurry(fn)).lastCalledWith(a, b, c)
-  member x.Calls:('A * 'B * 'C)[] = (getMock fn).calls
+  member __.Calls:('A * 'B * 'C)[] = (getMock fn).calls
   member x.LastCall:('A * 'B * 'C) = x.Calls |> Array.last
 
 let toEqual expected actual =
