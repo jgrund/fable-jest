@@ -1,9 +1,7 @@
-module rec Fable.Import.Jest.Bindings
+module Fable.Import.Jest.Bindings
 
 open System.Text.RegularExpressions
 open Fable.Core
-open Fable.Core.JsInterop
-open Fable.Import.JS
 
 type [<AllowNullLiteral>] Expect =
   /// If you know how to test something, ```.not``` lets you test its opposite.
@@ -97,7 +95,7 @@ type [<AllowNullLiteral>] ExpectStatic =
   /// ```expect.anything()``` matches anything but null or undefined.
   /// You can use it inside toEqual or toBeCalledWith instead of a literal value.
   /// For example, if you want to check that a mock function is called with a non-null argument:
-  abstract anything: unit -> unit
+  abstract anything: unit -> 'a
   /// ```expect.any``` constructor matches anything that was created with the given constructor.
   /// You can use it inside toEqual or toBeCalledWith instead of a literal value.
   abstract any: 'a -> 'b
@@ -135,6 +133,9 @@ type [<AllowNullLiteral>] DoneStatic =
 type [<AllowNullLiteral>] Virtual =
   abstract ``virtual``: bool with get, set
 
+type [<AllowNullLiteral>] Mock<'A> =
+  abstract calls: 'A []
+
 type [<AllowNullLiteral>] JestStatic =
   [<Emit("$0.fn()")>] abstract fn1: unit -> ('a -> 'b)
   [<Emit("$0.fn($1)")>] abstract fn1: ('a -> 'b) -> ('a -> 'b)
@@ -152,9 +153,6 @@ type [<AllowNullLiteral>] JestStatic =
   abstract genMockFromModule: string -> 'A
   abstract spyOn: 'A -> string -> Mock<_>
   abstract setTimeout: int -> unit
-
-type [<AllowNullLiteral>] Mock<'A> =
-  abstract calls: 'A []
 
 type IExports =
   abstract Expect: ExpectStatic with get, set

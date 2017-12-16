@@ -1,8 +1,8 @@
 [<AutoOpen>]
-module rec Fable.Import.Jest.Exports
+module Fable.Import.Jest.Exports
 
 open Fable.Core
-open Fable.Import.Jest.Bindings
+open Bindings
 
 [<Global>]
 let expect:ExpectStatic = jsNative
