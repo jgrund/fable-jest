@@ -20,6 +20,8 @@ type [<AllowNullLiteral>] Matcher<'A, 'B> (?impl:'A -> 'B) =
   member __.Mock:'A -> 'B = fn
   member __.CalledWith (a:'A) =
     expect.Invoke(noCurry(fn)).toBeCalledWith(a)
+  member __.LastCalledWith() =
+    expect.Invoke(noCurry(fn)).lastCalledWith()
   member __.LastCalledWith (a:'A) =
     expect.Invoke(noCurry(fn)).lastCalledWith(a)
   member __.Calls:'A[][] = (getMock fn).calls
