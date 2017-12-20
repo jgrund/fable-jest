@@ -27,6 +27,7 @@ type [<AllowNullLiteral>] Expect =
   abstract toBeCalledWith:'a * 'b * 'c * 'd -> unit
   abstract toBeCalledWith:'a * 'b * 'c * 'd * 'e -> unit
   /// If you have a mock function, you can use ```.lastCalledWith``` to test what arguments it was last called with
+  [<Emit("$0.lastCalledWith()")>]  abstract lastCalledWith:unit -> unit
   abstract lastCalledWith:'a -> unit
   abstract lastCalledWith:'a * 'b -> unit
   abstract lastCalledWith:'a * 'b * 'c -> unit

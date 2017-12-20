@@ -35,6 +35,11 @@ test "it should have a matcher" <| fun () ->
 
   m.CalledWith (expect.any JS.Function)
 
+test "it should be called with no arguments" <| fun () ->
+  let m = Matcher<unit, unit>()
+  m.Mock()
+  m.LastCalledWith()
+
 test "it should have a matcher2" <| fun () ->
   let m = Matcher2()
 
