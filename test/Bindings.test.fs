@@ -1,7 +1,6 @@
 module Fable.Import.Jest.Test.Bindings
 
 open Fable.Import.Jest.Exports
-open Fable.Import.Jest.Matchers
 open Fable.Import
 open Fable.PowerPack
 
@@ -76,8 +75,3 @@ describe "expect" <| fun () ->
 
   test "should contain any" <| fun () ->
     expect.Invoke(fun () -> ()).toEqual(expect.any JS.Function)
-
-  test "should be called with no arguments" <| fun () ->
-    let m = Matcher<unit, unit>()
-    m.Mock()
-    m.LastCalledWith()
