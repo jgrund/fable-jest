@@ -53,10 +53,10 @@ type [<AllowNullLiteral>] Matcher3<'A, 'B, 'C, 'D> (?impl:'A -> 'B -> 'C -> 'D) 
   member __.Calls:('A * 'B * 'C)[] = (getMock fn).calls
   member x.LastCall:('A * 'B * 'C) = x.Calls |> Array.last
 
-let toEqual expected actual =
+let toEqual (expected:'A) (actual:'A) =
   expect.Invoke(expected).toEqual(actual)
 
-let toBe expected actual =
+let toBe (expected:'A) (actual:'A) =
   expect.Invoke(expected).toBe(actual)
 
 let toMatchSnapshot expected =
