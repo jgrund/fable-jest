@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="Meta.props" />
   <PropertyGroup>
-    <Version>1.7.6</Version>
+    <Version>1.8.0</Version>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bindings.fs" />
     <Compile Include="Exports.fs" />
+    <Compile Include="Utils.fs" />
     <Compile Include="Matchers.fs" />
   </ItemGroup>
   <ItemGroup>

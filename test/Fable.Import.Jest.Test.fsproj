@@ -4,9 +4,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Exports.test.fs" />
-    <Compile Include="Matchers.test.fs" />
     <Compile Include="Bindings.test.fs" />
-    <Compile Include="Main.fs" />
+    <Compile Include="Utils.test.fs" />
+    <Compile Include="Matchers.test.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../fable/Fable.Import.Jest.fsproj" />
