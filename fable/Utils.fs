@@ -2,7 +2,7 @@ module Fable.Import.Jest.Util
 
 open Fable.Import.Node
 open Fable.PowerPack
-let streamToPromise<'a, 'b when 'a :> Stream.Writable<'b>> (x:'a) =
+let streamToPromise<'a, 'b when 'a :> Stream.Readable<'b>> (x:'a) =
     Promise.create(fun res rej -> 
         let mutable b: 'b list = []
 
