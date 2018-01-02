@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="Meta.props" />
   <PropertyGroup>
-    <Version>1.8.0</Version>
+    <Version>1.8.1</Version>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
