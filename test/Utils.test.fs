@@ -7,11 +7,11 @@ open Matchers
 open Fable.PowerPack
 
 let private from (x:string) = 
-  Buffer.Buffer.from x
+  buffer.Buffer.from x
 
 testAsync "streamToPromise" <| fun() ->
   promise {
-    let s = Stream.PassThrough.Create<Buffer.Buffer>()
+    let s = stream.PassThrough.Create<Buffer.Buffer>()
 
     s.write(from "foo")
       |> ignore

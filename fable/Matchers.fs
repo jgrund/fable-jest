@@ -130,8 +130,7 @@ module Jesto =
 
     xs
       |> Seq.map (fun (name, fn) ->
-        let t = fixture(fn)
-        TestDone(name, fun x -> t(x))
+        TestDone(name, fun x -> fixture fn x)
       )
 
   /// Creates an async fixture to pass into tests.
