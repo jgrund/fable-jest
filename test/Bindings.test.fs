@@ -3,6 +3,7 @@ module Fable.Import.Jest.Test.Bindings
 open Fable.Import.Jest.Exports
 open Fable.Import
 open Fable.PowerPack
+open Fable.Import.Jest.Matchers
 
 type Foo = {foo:string; bar:string;}
 type Bar = {bar:string;}
@@ -75,3 +76,75 @@ describe "expect" <| fun () ->
 
   test "should contain any" <| fun () ->
     expect.Invoke(fun () -> ()).toEqual(expect.any JS.Function)
+
+
+testList "mock timers" [
+  let withSetup f ():unit =
+    jest.useFakeTimers()
+    let timer = new System.Timers.Timer(1000.0)
+
+    f timer
+
+    jest.clearAllTimers()
+
+  yield! testFixture withSetup [
+    "should contain clearAllTimers", fun timer ->
+      let mutable h = false
+      let handler _ = h <- true
+
+      timer.Elapsed.Add handler
+      timer.Start()
+
+      jest.clearAllTimers()
+      expect.Invoke(h).toEqual(false);
+  ]
+
+  yield! testFixture withSetup [
+    "should contain runAllTimers", fun timer ->
+      let mutable h = false
+      let handler _ = h <- true
+
+      timer.AutoReset <- false  // infinite recursion otherwise
+      timer.Elapsed.Add handler
+      timer.Start()
+
+      jest.runAllTimers()
+      expect.Invoke(h).toEqual(true);
+  ]
+
+  yield! testFixture withSetup [
+    "should contain runOnlyPendingTimers", fun timer ->
+      let mutable h = false
+      let handler _ = h <- true
+
+      timer.Elapsed.Add handler
+      timer.Start()
+
+      jest.runOnlyPendingTimers()
+      expect.Invoke(h).toEqual(true);
+  ]
+
+  yield! testFixture withSetup [
+    "should contain runTimersToTime", fun timer ->
+      let mutable h = false
+      let handler _ = h <- true
+
+      timer.Elapsed.Add handler
+      timer.Start()
+
+      jest.runTimersToTime 2000
+      expect.Invoke(h).toEqual(true);
+  ]
+
+  yield! testFixture withSetup [
+    "should contain advanceTimersByTime", fun timer ->
+      let mutable h = false
+      let handler _ = h <- true
+
+      timer.Elapsed.Add handler
+      timer.Start()
+
+      jest.advanceTimersByTime 2000
+      expect.Invoke(h).toEqual(true);
+ ]
+]
