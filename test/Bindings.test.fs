@@ -3,6 +3,7 @@ module Fable.Import.Jest.Test.Bindings
 open Fable.Import.Jest.Exports
 open Fable.Import
 open Fable.PowerPack
+open Fable.Import.Jest.Matchers.Jesto
 
 type Foo = {foo:string; bar:string;}
 type Bar = {bar:string;}
@@ -76,28 +77,74 @@ describe "expect" <| fun () ->
   test "should contain any" <| fun () ->
     expect.Invoke(fun () -> ()).toEqual(expect.any JS.Function)
 
-  test "should contain runAllTimers" <| fun () ->
+
+testList "mock timers" [
+  let withSetup f ():unit =
     jest.useFakeTimers()
-    let mutable g = false
-    let handler _ = g <- true
-
     let timer = new System.Timers.Timer(1000.0)
-    timer.Elapsed.Add handler
-    timer.Start()
 
-    jest.runAllTimers()
+    f timer
 
-    expect.Invoke(g).toEqual(true)
+    jest.clearAllTimers()
 
-  test "should contain advanceTimersByTime" <| fun () ->
-    jest.useFakeTimers()
-    let mutable g = false
-    let handler _ = g <- true
+  yield! testFixture withSetup [
+    "should contain clearAllTimers", fun timer ->
+      let mutable h = false
+      let handler _ = h <- true
 
-    let timer = new System.Timers.Timer(1000.0)
-    timer.Elapsed.Add handler
-    timer.Start()
+      timer.Elapsed.Add handler
+      timer.Start()
 
-    jest.advanceTimersByTime 2000
+      jest.clearAllTimers()
+      expect.Invoke(h).toEqual(false);
+  ]
 
-    expect.Invoke(g).toEqual(true)
+  yield! testFixture withSetup [
+    "should contain runAllTimers", fun timer ->
+      let mutable h = false
+      let handler _ = h <- true
+
+      timer.AutoReset <- false  // infinite recursion otherwise
+      timer.Elapsed.Add handler
+      timer.Start()
+
+      jest.runAllTimers()
+      expect.Invoke(h).toEqual(true);
+  ]
+
+  yield! testFixture withSetup [
+    "should contain runOnlyPendingTimers", fun timer ->
+      let mutable h = false
+      let handler _ = h <- true
+
+      timer.Elapsed.Add handler
+      timer.Start()
+
+      jest.runOnlyPendingTimers()
+      expect.Invoke(h).toEqual(true);
+  ]
+
+  yield! testFixture withSetup [
+    "should contain runTimersToTime", fun timer ->
+      let mutable h = false
+      let handler _ = h <- true
+
+      timer.Elapsed.Add handler
+      timer.Start()
+
+      jest.runTimersToTime 2000
+      expect.Invoke(h).toEqual(true);
+  ]
+
+  yield! testFixture withSetup [
+    "should contain advanceTimersByTime", fun timer ->
+      let mutable h = false
+      let handler _ = h <- true
+
+      timer.Elapsed.Add handler
+      timer.Start()
+
+      jest.advanceTimersByTime 2000
+      expect.Invoke(h).toEqual(true);
+ ]
+]
