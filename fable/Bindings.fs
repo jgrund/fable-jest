@@ -154,6 +154,21 @@ type [<AllowNullLiteral>] JestStatic =
   abstract genMockFromModule: string -> 'A
   abstract spyOn: 'A -> string -> Mock<_>
   abstract setTimeout: int -> unit
+  abstract clearAllTimers: unit -> unit
+  abstract runAllTicks: unit -> unit
+  /// Fast-forward until all timers have been executed
+  abstract runAllTimers: unit -> unit
+  /// Fast forward and exhaust only currently pending timers
+  /// (but not any new timers that get created during that process)
+  abstract runOnlyPendingTimers: unit -> unit
+  /// All timers are advanced by msToRun milliseconds
+  abstract advanceTimersByTime: int -> unit
+  /// All timers are advanced by msToRun milliseconds
+  abstract runTimersToTime: int -> unit
+  /// Enable fake timers by calling jest.useFakeTimers();
+  /// This mocks out setTimeout and other timer functions with mock functions.
+  abstract useFakeTimers: unit -> unit
+  abstract useRealTimers: unit -> unit
 
 type IExports =
   abstract Expect: ExpectStatic with get, set
