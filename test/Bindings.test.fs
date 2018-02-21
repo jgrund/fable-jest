@@ -75,3 +75,29 @@ describe "expect" <| fun () ->
 
   test "should contain any" <| fun () ->
     expect.Invoke(fun () -> ()).toEqual(expect.any JS.Function)
+
+  test "should contain runAllTimers" <| fun () ->
+    jest.useFakeTimers()
+    let mutable g = false
+    let handler _ = g <- true
+
+    let timer = new System.Timers.Timer(1000.0)
+    timer.Elapsed.Add handler
+    timer.Start()
+
+    jest.runAllTimers()
+
+    expect.Invoke(g).toEqual(true)
+
+  test "should contain advanceTimersByTime" <| fun () ->
+    jest.useFakeTimers()
+    let mutable g = false
+    let handler _ = g <- true
+
+    let timer = new System.Timers.Timer(1000.0)
+    timer.Elapsed.Add handler
+    timer.Start()
+
+    jest.advanceTimersByTime 2000
+
+    expect.Invoke(g).toEqual(true)
