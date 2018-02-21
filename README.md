@@ -13,7 +13,7 @@ Fable bindings for Jest.
 
 * Create project
 
-  * `dotnet new fable-jest -n my-test-app`
+  * `dotnet new fable-jest -n my-test-app -lang F#`
 
 * Run the tests
   * `dotnet fable npm-run test`
