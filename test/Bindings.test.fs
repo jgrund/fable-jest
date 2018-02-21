@@ -81,70 +81,46 @@ describe "expect" <| fun () ->
 testList "mock timers" [
   let withSetup f ():unit =
     jest.useFakeTimers()
-    let timer = new System.Timers.Timer(1000.0)
+      |> ignore
 
-    f timer
+    let timer = new System.Timers.Timer(1000.0)
+    let mutable h = false
+    let handler _ = h <- true
+
+    let value () = h
+
+    timer.Elapsed.Add handler
+
+    f timer value
 
     jest.clearAllTimers()
 
   yield! testFixture withSetup [
-    "should contain clearAllTimers", fun timer ->
-      let mutable h = false
-      let handler _ = h <- true
-
-      timer.Elapsed.Add handler
+    "should contain clearAllTimers", fun timer h ->
       timer.Start()
 
       jest.clearAllTimers()
-      expect.Invoke(h).toEqual(false);
-  ]
-
-  yield! testFixture withSetup [
-    "should contain runAllTimers", fun timer ->
-      let mutable h = false
-      let handler _ = h <- true
-
+      h() === false;
+    "should contain runAllTimers", fun timer h ->
       timer.AutoReset <- false  // infinite recursion otherwise
-      timer.Elapsed.Add handler
       timer.Start()
 
       jest.runAllTimers()
-      expect.Invoke(h).toEqual(true);
-  ]
-
-  yield! testFixture withSetup [
-    "should contain runOnlyPendingTimers", fun timer ->
-      let mutable h = false
-      let handler _ = h <- true
-
-      timer.Elapsed.Add handler
+      h() === true
+    "should contain runOnlyPendingTimers", fun timer h ->
       timer.Start()
 
       jest.runOnlyPendingTimers()
-      expect.Invoke(h).toEqual(true);
-  ]
-
-  yield! testFixture withSetup [
-    "should contain runTimersToTime", fun timer ->
-      let mutable h = false
-      let handler _ = h <- true
-
-      timer.Elapsed.Add handler
+      h() === true;
+    "should contain runTimersToTime", fun timer h ->
       timer.Start()
 
       jest.runTimersToTime 2000
-      expect.Invoke(h).toEqual(true);
-  ]
-
-  yield! testFixture withSetup [
-    "should contain advanceTimersByTime", fun timer ->
-      let mutable h = false
-      let handler _ = h <- true
-
-      timer.Elapsed.Add handler
+      h() === true;
+    "should contain advanceTimersByTime", fun timer h ->
       timer.Start()
 
       jest.advanceTimersByTime 2000
-      expect.Invoke(h).toEqual(true);
- ]
+      h() === true;
+  ]
 ]
