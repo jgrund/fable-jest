@@ -167,8 +167,8 @@ type [<AllowNullLiteral>] JestStatic =
   abstract runTimersToTime: int -> unit
   /// Enable fake timers by calling jest.useFakeTimers();
   /// This mocks out setTimeout and other timer functions with mock functions.
-  abstract useFakeTimers: unit -> unit
-  abstract useRealTimers: unit -> unit
+  abstract useFakeTimers: unit -> JestStatic
+  abstract useRealTimers: unit -> JestStatic
 
 type IExports =
   abstract Expect: ExpectStatic with get, set

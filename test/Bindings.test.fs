@@ -3,7 +3,7 @@ module Fable.Import.Jest.Test.Bindings
 open Fable.Import.Jest.Exports
 open Fable.Import
 open Fable.PowerPack
-open Fable.Import.Jest.Matchers.Jesto
+open Fable.Import.Jest.Matchers
 
 type Foo = {foo:string; bar:string;}
 type Bar = {bar:string;}
