@@ -72,8 +72,8 @@ expect.extend (createObj
         let isEqual:bool = !!(this?equals(z, y))
 
         match isEqual with
-          | true -> createObj ["message" ==> (sprintf "Expected " + (this?utils?printExpected(x) :?> string) + " not to equal " +  (this?utils?printReceived(y) :?> string)); "pass" ==> true]
-          | false -> createObj ["message" ==> (sprintf "Expected " + (this?utils?printExpected(x) :?> string) + " to equal " + (this?utils?printReceived(y) :?> string)); "pass" ==> false]
+          | true -> createObj ["message" ==> (sprintf "Expected %A not to equal %A" (this?utils?printExpected(x))  (this?utils?printReceived(y))); "pass" ==> true]
+          | false -> createObj ["message" ==> (sprintf "Expected %A  to equal %A" (this?utils?printExpected(x)) (this?utils?printReceived(y))); "pass" ==> false]
       | None -> createObj ["message" ==> "Expected Some Got None"; "pass" ==> false];
     "toEqualNone" ==> fun x ->
       match x with
@@ -84,10 +84,10 @@ expect.extend (createObj
   |> ignore
 
 let toEqualSome x y =
-  expect.Invoke(x)?toEqualSome(y) :?> unit
+  expect.Invoke(x)?toEqualSome(y) |> ignore
 
 let toEqualNone (x):unit =
-  expect.Invoke(x)?toEqualNone() :?> unit
+  expect.Invoke(x)?toEqualNone() |> ignore
 
 [<AutoOpen>]
 module Assertions =
